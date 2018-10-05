@@ -20,7 +20,7 @@ const categories = require("./routes/categories");
 const manage = require("./routes/manage");
 const report = require("./routes/report");
 
-const port = process.env.PORT || 3000;  
+const port = process.env.PORT || 3000;
 
 const app = express();
 
@@ -31,19 +31,23 @@ require("./config/passport")(passport);
 
 // mongoose middleware
 mongoose
-  .connect(db.mongoURI)
+  .connect(db.mongoURI, {
+    useNewUrlParser: true
+  })
   .then(() => console.log("MongoDB Connected..."))
   .catch(err => console.log(err));
 
 // express-handlebars middleware
 app.engine("handlebars", exphbs({
-    defaultLayout: "main"
-  })
+  defaultLayout: "main"
+})
 );
 app.set("view engine", "handlebars");
 
 // body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 
 // express session midleware
